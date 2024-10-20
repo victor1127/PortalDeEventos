@@ -2,7 +2,49 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+
+<section id="inicio" class="hero">
+    <div class="hero-text">
+        <h2>Conecta con tu Comunidad</h2>
+        <p>Descubre, crea y participa en eventos cerca de ti.</p>
+        <a href="#eventos" class="btn">Explorar Eventos</a>
+    </div>
+</section>
+
+<section id="eventos" class="container">
+    <h2>Próximos Eventos</h2>
+    <div class="event-card">
+        <h3>Evento Deportivo</h3>
+        <p>Fecha: 25 de octubre de 2024</p>
+        <p>Ubicación: Parque Central</p>
+        <button>Registrarse</button>
+    </div>
+    <div class="event-card">
+        <h3>Feria Artesanal</h3>
+        <p>Fecha: 30 de octubre de 2024</p>
+        <p>Ubicación: Plaza Principal</p>
+        <button>Registrarse</button>
+    </div>
+</section>
+
+
+<section id="registro" class="container">
+    <h2>Crear Nuevo Evento</h2>
+    <form action="#">
+        <label for="nombre-evento">Nombre del Evento:</label>
+        <input type="text" id="nombre-evento" name="nombre-evento" required>
+
+        <label for="fecha-evento">Fecha:</label>
+        <input type="date" id="fecha-evento" name="fecha-evento" required>
+
+        <label for="ubicacion-evento">Ubicación:</label>
+        <input type="text" id="ubicacion-evento" name="ubicacion-evento" required>
+
+        <label for="descripcion-evento">Descripción:</label>
+        <textarea id="descripcion-evento" name="descripcion-evento" required></textarea>
+
+        <button type="submit">Crear Evento</button>
+    </form>
+</section>
+
