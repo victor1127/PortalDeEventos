@@ -34,9 +34,12 @@ body {
 }
 
 header {
-    background: #333;
     color: #fff;
     padding: 10px 0;
+}
+
+nav{
+    background-color: red;
 }
 
 nav h1 {
@@ -44,6 +47,18 @@ nav h1 {
     margin-left: 20px;
 }
 
+.navbar-nav{
+    align-items: center;
+}
+
+#logout-btn-form{
+    padding: 0;
+}
+
+#logout-btn{
+    color: red !important;
+    background-color: transparent;
+}
 nav ul {
     list-style: none;
     display: inline-block;
@@ -77,14 +92,17 @@ nav ul li a:hover {
     color: #fff;
 }
 
-.hero-text h2 {
-    font-size: 3rem;
+.hero-text h1 {
+    font-size: 4rem;
     margin-bottom: 10px;
+    color: black;
+    font-weight: bold;
 }
 
 .hero-text p {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     margin-bottom: 20px;
+    color: black
 }
 
 .btn {
@@ -182,3 +200,4 @@ footer {
 footer p {
     margin: 5px 0;
 }
+

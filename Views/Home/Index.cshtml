@@ -1,50 +1,67 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using PortalDeEventos.Data;
+@using PortalDeEventos.Models;
+
+@model List<Events>
+@inject SignInManager<EventUser> SignInManager
+
+@{
     ViewData["Title"] = "Home Page";
+    var isSignedIn = SignInManager.IsSignedIn(User);
 }
 
 
 
 <section id="inicio" class="hero">
     <div class="hero-text">
-        <h2>Conecta con tu Comunidad</h2>
+        <h1>Conecta con tu Comunidad</h1>
         <p>Descubre, crea y participa en eventos cerca de ti.</p>
-        <a href="#eventos" class="btn">Explorar Eventos</a>
     </div>
 </section>
 
 <section id="eventos" class="container">
     <h2>Próximos Eventos</h2>
-    <div class="event-card">
-        <h3>Evento Deportivo</h3>
-        <p>Fecha: 25 de octubre de 2024</p>
-        <p>Ubicación: Parque Central</p>
-        <button>Registrarse</button>
-    </div>
-    <div class="event-card">
-        <h3>Feria Artesanal</h3>
-        <p>Fecha: 30 de octubre de 2024</p>
-        <p>Ubicación: Plaza Principal</p>
-        <button>Registrarse</button>
-    </div>
+
+    @foreach(var e in Model)
+    {
+        <div class="event-card">
+            <h3>@e.Name</h3>
+            <p>Fecha: @e.Time?.ToString("dd 'de' MMMM 'de' yyyy")</p>
+            <p>Ubicación: @e.Location</p>
+            @if (isSignedIn)
+            {
+                <a class="btn btn-sm" asp-action="RegisterToEvent" asp-route-EventId="@e.Id">Registrarse</a>
+            }
+            else
+            {
+                <a class="btn btn-sm" asp-area="Identity" asp-page="/Account/Register">Log in to register</a>
+            }
+        </div>
+    }
 </section>
 
 
-<section id="registro" class="container">
-    <h2>Crear Nuevo Evento</h2>
-    <form action="#">
-        <label for="nombre-evento">Nombre del Evento:</label>
-        <input type="text" id="nombre-evento" name="nombre-evento" required>
+@if (isSignedIn)
+{
+    var newEvent = new Events();
+    <section id="registro" class="container">
+        <h2>Crear Evento</h2>
+        <form asp-action="CreateEvent">
+            <label asp-for="@newEvent.Name">Nombre del Evento:</label>
+            <input type="text" asp-for="@newEvent.Name" required>
 
-        <label for="fecha-evento">Fecha:</label>
-        <input type="date" id="fecha-evento" name="fecha-evento" required>
+            <label asp-for="@newEvent.Time">Fecha:</label>
+            <input type="date" asp-for="@newEvent.Time" required>
 
-        <label for="ubicacion-evento">Ubicación:</label>
-        <input type="text" id="ubicacion-evento" name="ubicacion-evento" required>
+            <label asp-for="@newEvent.Location">Ubicacion:</label>
+            <input type="text" asp-for="@newEvent.Location" required>
 
-        <label for="descripcion-evento">Descripción:</label>
-        <textarea id="descripcion-evento" name="descripcion-evento" required></textarea>
+            <label asp-for="@newEvent.Description">Descripcion:</label>
+            <textarea asp-for="@newEvent.Description" required style="min-height: 300px"></textarea>
+                
+            <button type="submit">Crear Evento</button>
+        </form>
+    </section>
+}
 
-        <button type="submit">Crear Evento</button>
-    </form>
-</section>
 

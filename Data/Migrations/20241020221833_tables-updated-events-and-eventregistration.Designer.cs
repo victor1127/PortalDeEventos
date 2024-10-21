@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PortalDeEventos.Data;
 
@@ -11,9 +12,11 @@ using PortalDeEventos.Data;
 namespace PortalDeEventos.data.migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241020221833_tables-updated-events-and-eventregistration")]
+    partial class tablesupdatedeventsandeventregistration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,9 +275,12 @@ namespace PortalDeEventos.data.migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AuthorId")
-                        .IsRequired()
+                    b.Property<string>("CreatedById")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatedByUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -296,7 +302,7 @@ namespace PortalDeEventos.data.migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("CreatedById");
 
                     b.ToTable("Events");
                 });
@@ -373,13 +379,11 @@ namespace PortalDeEventos.data.migrations
 
             modelBuilder.Entity("PortalDeEventos.Models.Events", b =>
                 {
-                    b.HasOne("PortalDeEventos.Data.EventUser", "Author")
+                    b.HasOne("PortalDeEventos.Data.EventUser", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CreatedById");
 
-                    b.Navigation("Author");
+                    b.Navigation("CreatedBy");
                 });
 
             modelBuilder.Entity("PortalDeEventos.Data.EventUser", b =>

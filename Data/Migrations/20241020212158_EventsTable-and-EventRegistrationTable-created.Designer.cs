@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PortalDeEventos.Data;
 
@@ -11,9 +12,11 @@ using PortalDeEventos.Data;
 namespace PortalDeEventos.data.migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241020212158_EventsTable-and-EventRegistrationTable-created")]
+    partial class EventsTableandEventRegistrationTablecreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,21 @@ namespace PortalDeEventos.data.migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("EventUserEvents", b =>
+                {
+                    b.Property<string>("EventUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("EventsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EventUsersId", "EventsId");
+
+                    b.HasIndex("EventsId");
+
+                    b.ToTable("EventUserEvents");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -237,7 +255,7 @@ namespace PortalDeEventos.data.migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("PortalDeEventos.Models.EventRegistration", b =>
+            modelBuilder.Entity("PortalDeEventos.Models.EnventRegistration", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -249,17 +267,13 @@ namespace PortalDeEventos.data.migrations
                         .HasColumnType("int");
 
                     b.Property<string>("EventUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("EventsId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EventUserId");
+                    b.HasIndex("EventId");
 
-                    b.HasIndex("EventsId");
+                    b.HasIndex("EventUserId");
 
                     b.ToTable("EventRegistration");
                 });
@@ -271,10 +285,6 @@ namespace PortalDeEventos.data.migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AuthorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -296,9 +306,22 @@ namespace PortalDeEventos.data.migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
-
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("EventUserEvents", b =>
+                {
+                    b.HasOne("PortalDeEventos.Data.EventUser", null)
+                        .WithMany()
+                        .HasForeignKey("EventUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PortalDeEventos.Models.Events", null)
+                        .WithMany()
+                        .HasForeignKey("EventsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -352,44 +375,21 @@ namespace PortalDeEventos.data.migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PortalDeEventos.Models.EventRegistration", b =>
+            modelBuilder.Entity("PortalDeEventos.Models.EnventRegistration", b =>
                 {
-                    b.HasOne("PortalDeEventos.Data.EventUser", "EventUser")
-                        .WithMany("EventRegistrations")
-                        .HasForeignKey("EventUserId")
+                    b.HasOne("PortalDeEventos.Models.Events", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PortalDeEventos.Models.Events", "Events")
-                        .WithMany("EventRegistrations")
-                        .HasForeignKey("EventsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("PortalDeEventos.Data.EventUser", "EventUser")
+                        .WithMany()
+                        .HasForeignKey("EventUserId");
+
+                    b.Navigation("Event");
 
                     b.Navigation("EventUser");
-
-                    b.Navigation("Events");
-                });
-
-            modelBuilder.Entity("PortalDeEventos.Models.Events", b =>
-                {
-                    b.HasOne("PortalDeEventos.Data.EventUser", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-                });
-
-            modelBuilder.Entity("PortalDeEventos.Data.EventUser", b =>
-                {
-                    b.Navigation("EventRegistrations");
-                });
-
-            modelBuilder.Entity("PortalDeEventos.Models.Events", b =>
-                {
-                    b.Navigation("EventRegistrations");
                 });
 #pragma warning restore 612, 618
         }

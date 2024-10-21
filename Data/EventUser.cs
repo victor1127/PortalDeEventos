@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using PortalDeEventos.Enums;
+using PortalDeEventos.Models;
 
 namespace PortalDeEventos.Data
 {
@@ -37,5 +38,9 @@ namespace PortalDeEventos.Data
 
 
 
+        public ICollection<EventRegistration> EventRegistrations { get; set; } = new HashSet<EventRegistration>();
+
+
     }
+
 }

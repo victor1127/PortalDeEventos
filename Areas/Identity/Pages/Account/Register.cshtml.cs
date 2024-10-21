@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using PortalDeEventos.Data;
+using PortalDeEventos.Enums;
 
 namespace PortalDeEventos.Areas.Identity.Pages.Account
 {
@@ -80,6 +81,23 @@ namespace PortalDeEventos.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
+            [Required]
+            [Display(Name = "Fist name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Required]
+            [DataType(DataType.Date)]
+            [Display(Name = "Date of birth")]
+            public DateTime DateOfBirth { get; set; }
+
+
+            [Display(Name = "Gender")]
+            public Gender Gender { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -114,6 +132,10 @@ namespace PortalDeEventos.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+                user.FirstName = Input.FirstName; 
+                user.LastName = Input.LastName;
+                user.DateOfBirth = Input.DateOfBirth;
+                user.Gender = Input.Gender;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

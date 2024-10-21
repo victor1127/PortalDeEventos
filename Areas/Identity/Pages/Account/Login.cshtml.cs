@@ -129,7 +129,7 @@ namespace PortalDeEventos.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Account not found");
                     return Page();
                 }
             }
