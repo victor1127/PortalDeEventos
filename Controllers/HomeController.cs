@@ -24,7 +24,7 @@ namespace PortalDeEventos.Controllers
 
         public IActionResult Index()
         {
-            var events = _context.Events;
+            var events = _context.Events.ToList();
             return View(events.ToList());
         }
 
@@ -55,12 +55,13 @@ namespace PortalDeEventos.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             var register = new EventRegistration();
-            register.EventId = EventId;
+            register.EventsId = EventId;
             register.EventUserId = user.Id;
             _context.EventRegistration.Add(register);
             _context.SaveChanges();
 
             return RedirectToAction("Index");
+
 
         }
 

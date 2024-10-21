@@ -1,4 +1,5 @@
 ﻿using PortalDeEventos.Data;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection.Metadata.Ecma335;
 
 namespace PortalDeEventos.Models
@@ -6,8 +7,12 @@ namespace PortalDeEventos.Models
     public class EventRegistration
     {
         public int Id { get; set; }
+
+        [Column("EventUserId")]
         public string EventUserId { get; set; } // Foreign key to EventUser
-        public int EventId { get; set; } // Foreign key to Events
+
+        [Column("EventId")]
+        public int EventsId { get; set; } // Foreign key to Events
 
 
 

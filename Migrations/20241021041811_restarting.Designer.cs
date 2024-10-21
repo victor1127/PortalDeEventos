@@ -9,11 +9,11 @@ using PortalDeEventos.Data;
 
 #nullable disable
 
-namespace PortalDeEventos.data.migrations
+namespace PortalDeEventos.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241020222501_updateToEventsTable")]
-    partial class updateToEventsTable
+    [Migration("20241021041811_restarting")]
+    partial class restarting
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -248,15 +248,14 @@ namespace PortalDeEventos.data.migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
                     b.Property<string>("EventUserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("EventUserId");
 
                     b.Property<int>("EventsId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("EventId");
 
                     b.HasKey("Id");
 

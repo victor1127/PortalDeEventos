@@ -31,12 +31,33 @@
             @if (isSignedIn)
             {
                 <a class="btn btn-sm" asp-action="RegisterToEvent" asp-route-EventId="@e.Id">Registrarse</a>
+                <button class="btn" data-bs-toggle="modal" data-bs-target="@($"#modal-{e.Id}")">Detalles</button>
             }
             else
             {
-                <a class="btn btn-sm" asp-area="Identity" asp-page="/Account/Register">Log in to register</a>
+                <a class="btn btn-sm" asp-area="Identity" asp-page="/Account/Register">Inicia sesion para registrarte</a>
             }
         </div>
+
+
+        <div class="modal" tabindex="-1" id="@($"modal-{e.Id}")">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">@e.Name</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Fecha: @e.Time?.ToString("dd 'de' MMMM 'de' yyyy")</p>
+                        <p>Ubicación: @e.Location</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-sm" asp-action="RegisterToEvent" asp-route-EventId="@e.Id">Registrarse</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     }
 </section>
 
@@ -63,5 +84,7 @@
         </form>
     </section>
 }
+
+
 
 
